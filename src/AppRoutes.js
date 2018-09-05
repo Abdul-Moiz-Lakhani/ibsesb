@@ -1,18 +1,22 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
 import {createStackNavigator} from "react-navigation";
-import Login from "./containers/Login/Login";
+import {Provider} from 'react-redux';
+import Store from "./store/store";
+
+import WelcomeScreen from "./containers/WelcomeScreen";
 
 export default class AppRoutes extends Component {
 
     render() {
         return (
-            <AppStackNavigator />
+            <Provider store={Store}>
+                <AppStackNavigator />
+            </Provider>
         );
     }
 }
 
 const AppStackNavigator = createStackNavigator({
-    Login: Login
+    WelcomeScreen: WelcomeScreen
 })
 
