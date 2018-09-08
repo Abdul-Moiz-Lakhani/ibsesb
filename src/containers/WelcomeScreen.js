@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
-import * as firebase from 'firebase';
 import {connect} from 'react-redux';
 import {userSignIn} from "./../store/actions/authActions";
 
 import Logo from './Logo';
 import Login from './Login';
+
+import * as firebase from 'firebase';
 
 class WelcomeScreen extends Component {
 
@@ -16,7 +17,14 @@ class WelcomeScreen extends Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                this.props.userSignIn(user);
+                
+                firebase.database().ref(`Users/${user.uid}/`).on('value', snap => {
+                    this.props.userSignIn(snap.val());
+                    this.props.navigation.navigate('DrawerNavigator');
+                })
+            }
+            else {
+                this.props.navigation.navigate('WelcomeScreen');
             }
         })
     }

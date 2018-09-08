@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import * as firebase from 'firebase';
-import { connect } from "react-redux";
-import { userSignIn, userSignOut } from "./../store/actions/authActions";
 
 class Login extends Component {
 
@@ -19,9 +17,6 @@ class Login extends Component {
 
   handleOnPress = () => {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => {
-        this.props.userSignIn(user);
-      })
       .catch(error => {
         console.log(error.message)
       })
@@ -79,21 +74,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userDetails: state.userAuth.user
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    userSignIn: (user) => {
-      dispatch(userSignIn(user))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
 
 const styles = StyleSheet.create({
   container: {

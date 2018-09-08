@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import {createStackNavigator} from "react-navigation";
+import {createStackNavigator, createDrawerNavigator} from "react-navigation";
 import {Provider} from 'react-redux';
 import Store from "./store/store";
 
 import WelcomeScreen from "./containers/WelcomeScreen";
+import AppTabNavigator from "./containers/DashboardTabNavigator";
 
 export default class AppRoutes extends Component {
 
@@ -16,7 +17,25 @@ export default class AppRoutes extends Component {
     }
 }
 
+const InnerStackNavigator = createStackNavigator({
+    TabNavigator: AppTabNavigator
+})
+
+const AppDrawerNavigator = createDrawerNavigator({
+    Dashboard: InnerStackNavigator
+})
+
 const AppStackNavigator = createStackNavigator({
-    WelcomeScreen: WelcomeScreen
+    WelcomeScreen: WelcomeScreen,
+    DrawerNavigator: {
+        screen: AppDrawerNavigator,
+        navigationOptions: {
+            header: null
+        }
+    }
+}, {
+    navigationOptions: {
+        gesturesEnabled: false
+    }
 })
 
