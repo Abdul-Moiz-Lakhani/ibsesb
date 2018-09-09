@@ -5,6 +5,7 @@ import Store from "./store/store";
 
 import WelcomeScreen from "./containers/WelcomeScreen";
 import AppTabNavigator from "./containers/DashboardTabNavigator";
+import CustomDrawerItems from "./components/CustomDrawerItems";
 
 export default class AppRoutes extends Component {
 
@@ -23,6 +24,8 @@ const InnerStackNavigator = createStackNavigator({
 
 const AppDrawerNavigator = createDrawerNavigator({
     Dashboard: InnerStackNavigator
+}, {
+    contentComponent: CustomDrawerItems
 })
 
 const AppStackNavigator = createStackNavigator({
@@ -30,7 +33,7 @@ const AppStackNavigator = createStackNavigator({
     DrawerNavigator: {
         screen: AppDrawerNavigator,
         navigationOptions: {
-            header: null
+            header: null,
         }
     }
 }, {

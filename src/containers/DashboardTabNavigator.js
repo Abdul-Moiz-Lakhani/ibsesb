@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import * as firebase from "firebase";
-import { createTabNavigator} from "react-navigation";
+import { createMaterialTopTabNavigator} from "react-navigation";
 import Icon from "react-native-vector-icons/Ionicons"
 import All from "./../components/All";
 import Bulb from "./../components/Bulb";
@@ -38,50 +38,35 @@ export default class AppTabNavigator extends Component{
 }
 
 
-const DashboardTabNavigator = createTabNavigator({
+const DashboardTabNavigator = createMaterialTopTabNavigator({
     All: {
         screen: All,
         navigationOptions: {
             tabBarLabel: 'All',
-            tabBarIcon: ()=>(
-                <Icon name="md-compass" size={24} />
-            )
         }
     },
     Bulb: {
         screen: Bulb,
         navigationOptions: {
             tabBarLabel: 'Bulb',
-            tabBarIcon: ()=>(
-                <Icon name="md-compass" size={24} />
-            )
         }
     },
     Fan: {
         screen: Fan,
         navigationOptions: {
             tabBarLabel: 'Fan',
-            tabBarIcon: ()=>(
-                <Icon name="md-compass" size={24} />
-            )
         }
     },
     Computer: {
         screen: Computer,
         navigationOptions: {
             tabBarLabel: 'PC',
-            tabBarIcon: ()=>(
-                <Icon name="md-compass" size={24} />
-            )
         }
     },
     AC: {
         screen: AC,
         navigationOptions: {
             tabBarLabel: 'AC',
-            tabBarIcon: ()=>(
-                <Icon name="md-compass" size={24} />
-            )
         }
     }
 })

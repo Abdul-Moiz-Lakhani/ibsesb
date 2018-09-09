@@ -18,7 +18,7 @@ class WelcomeScreen extends Component {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 
-                firebase.database().ref(`Users/${user.uid}/`).on('value', snap => {
+                firebase.database().ref(`board1/users/${user.uid}/`).on('value', snap => {
                     this.props.userSignIn(snap.val());
                     this.props.navigation.navigate('DrawerNavigator');
                 })
