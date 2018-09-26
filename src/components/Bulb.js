@@ -1,14 +1,35 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Switch } from 'react-native'
+import {Card, ListItem} from 'react-native-elements'
+import {connect} from 'react-redux' 
+import { toggleStatus } from "./../store/actions/applianceRecord"
 
-export class Bulb extends Component {
+class Bulb extends Component {
+
   render() {
+
     return (
-      <View>
-        <Text> Bulb Appliances </Text>
-      </View>
+      <Card containerStyle={{padding: 0}} >
+        {
+          this.props.record.map((u, i) => 
+            u.id === 'bulb' ? (
+              <ListItem
+                key={i}
+                title={u.name}
+                rightIcon={<Switch value={u.status} onValueChange={()=>toggleStatus(u.id, u.status)} />}
+              />
+            ) : null
+          )
+        }
+      </Card>
     )
   }
 }
 
-export default Bulb;
+const mapStateToProps = (state) => {
+  return {
+      record: state.appliances.appliances
+  }
+}
+
+export default connect(mapStateToProps, null)(Bulb);

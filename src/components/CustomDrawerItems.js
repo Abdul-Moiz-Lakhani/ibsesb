@@ -5,15 +5,17 @@ import {connect} from 'react-redux';
 
 const CustomDrawerItems = (props) => {
 
+    let userImage = props.userData.imgUrl !== 'none' ? {uri: props.userData.imgUrl} : require('./../assets/default_avatar.png');
+
     return (
     <SafeAreaView style={{flex: 1}}>
         <View style={styles.userImageContainer}>
             <View style={styles.imageBorder}>
-                <Image style={styles.image} source={{uri: props.userData.imgUrl}} />
+                <Image style={styles.image} source={userImage} />
             </View>
         </View>
         <Text style={styles.userName}>{props.userData.name}</Text>
-        <Text style={styles.userRole}>{props.userData.role === 'admin' ? 'Admin' : ''}</Text>
+        <Text style={styles.userRole}>{props.userData.role ? props.userData.role : ''}</Text>
         <ScrollView>
             <DrawerItems {...props} />
         </ScrollView>

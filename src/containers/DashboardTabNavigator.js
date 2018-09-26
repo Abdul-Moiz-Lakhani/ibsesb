@@ -31,6 +31,7 @@ export default class AppTabNavigator extends Component{
     }
 
     render(){
+
         return (
             <DashboardTabNavigator />
         )
