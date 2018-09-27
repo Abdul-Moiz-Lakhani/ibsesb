@@ -1,47 +1,76 @@
-import React from "react";
-import {View} from 'react-native';
-import {Card, ListItem} from 'react-native-elements'
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { View } from 'react-native';
+import { Card, ListItem } from 'react-native-elements'
+import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons"
 import * as firebase from 'firebase'
+import UserModal from "./userModal";
 
-const UsersList = (props) => {
+class UsersList extends Component {
 
-    handleRemoveChild = (id) => {
-        firebase.auth().deleteUser(id)
-        .then(()=>{
-            firebase.database().ref(`board1/users/${id}`).remove();
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            modalVisible: false,
+            editUserData: {}
+        };
+
+        this.setModalVisible = this.setModalVisible.bind(this)
     }
 
-    return (
-        <Card containerStyle={{padding: 0, width: '85%'}} >
-        {
-            props.userData.map((u, i) => 
-                u.id !== props.currentUser.id ? (
-                    <ListItem
-                        key={i}
-                        title={u.name}
-                        subtitle={u.role}
-                        rightIcon={ 
-                            <View style={{paddingRight: 10, flexDirection: 'row'}}>
-                                <Icon name="md-create" size={24} onPress={()=>{
-                                    console.log('hello')
-                                }} />
-                                <Icon name="md-trash" style={{paddingLeft: 12.5}} size={24} onPress={()=>{
-                                    this.handleRemoveChild(u.id);
-                                }} />
-                            </View>
-                        }
-                    />
-                ) : null
-            )
-        }
-      </Card>
-    );
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
+    }
+
+    handleRemoveChild = (id) => {
+        firebase.database().ref(`board1/users/${id}`).remove()
+            .then(() => {
+                console.log("User Removed");
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    render() {
+
+        return (
+
+            <Card containerStyle={{ padding: 0, width: '85%' }} >
+                {
+                    this.props.userData.map((u, i) =>
+                        u.id !== this.props.currentUser.id ? (
+                            <ListItem
+                                key={i}
+                                title={u.name}
+                                subtitle={u.role}
+                                rightIcon={this.props.currentUser.role === 'Admin' ? (
+                                    <View style={{ paddingRight: 10, flexDirection: 'row' }}>
+                                        <Icon name="md-create" size={24} onPress={() => {
+                                            this.setState({editUserData: u});
+                                            this.setModalVisible(!this.state.modalVisible);
+                                        }} />
+                                        <Icon name="md-trash" style={{ paddingLeft: 12.5 }} size={24} onPress={() => {
+                                            this.handleRemoveChild(u.id);
+                                        }} />
+                                    </View>) : <View></View>
+                                }
+                            />
+                        ) : null
+                    )
+                }
+
+                <UserModal 
+                    modalStatus={this.state.modalVisible} 
+                    setModalStatus={this.setModalVisible}
+                    userData={this.state.editUserData}    
+                />
+
+            </Card>
+
+        );
+    }
 }
 
 const mapStateToProps = (state) => {

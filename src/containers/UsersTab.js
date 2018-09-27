@@ -5,6 +5,14 @@ import Icon from "react-native-vector-icons/Ionicons"
 import UsersList from './../components/Users'
 import {connect} from 'react-redux';
 
+var secondaryConfig = {
+    apiKey: "AIzaSyDUIONOy3lDirRL5fbh4GCkCIbFARzNEEU",
+    authDomain: "ibsesb-fyp.firebaseapp.com",
+    databaseURL: "https://ibsesb-fyp.firebaseio.com",
+};
+
+var secondaryApp = firebase.initializeApp(secondaryConfig, "Secondary");
+
 class UsersTab extends Component{
 
     static navigationOptions = ({navigation}) => {
@@ -47,9 +55,9 @@ class UsersTab extends Component{
             imgUrl: 'none'
         }
 
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass)
+        secondaryApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass)
         .then( user => {
-            firebase.database().ref(`board1/users/${user.user.uid}/`).set(data).then(()=>{  
+            secondaryApp.database().ref(`board1/users/${user.user.uid}/`).set(data).then(()=>{  
                 this.setModalVisible(!this.state.modalVisible)
                 this.setState({
                     name: '',
@@ -57,6 +65,7 @@ class UsersTab extends Component{
                     email: '',
                     pass: ''
                 })
+                secondaryApp.auth().signOut();
             })
         }).catch((err)=>{
             console.log(err)
