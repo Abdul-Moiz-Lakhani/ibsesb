@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Picker } from 'react-native'
 import Icon from "react-native-vector-icons/Ionicons"
 import * as firebase from "firebase";
+import Snackbar from 'react-native-snackbar';
 
 class UsersModal extends React.Component {
 
@@ -47,9 +48,7 @@ class UsersModal extends React.Component {
                 role: '',
             })
         })
-        .catch((err) => {
-            console.log(err)
-        })
+        .catch((err) => Snackbar.show({ title: err.message }))
 
     }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import * as firebase from 'firebase';
+import Snackbar from 'react-native-snackbar';
 
 class Login extends Component {
 
@@ -17,10 +18,9 @@ class Login extends Component {
 
   handleOnPress = () => {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(error => {
-        console.log(error.message)
-      })
-
+    .then(()=>Snackbar.show({ title: "Sign In Successful", duration: Snackbar.LENGTH_LONG }))
+    .catch(err => Snackbar.show({ title: err.message }))
+    
     this.setState({
       email: '',
       password: ''
