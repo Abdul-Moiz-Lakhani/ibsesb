@@ -45,8 +45,6 @@ class UsersModal extends React.Component {
             this.setState({
                 name: '',
                 role: '',
-                email: '',
-                pass: ''
             })
         })
         .catch((err) => {
